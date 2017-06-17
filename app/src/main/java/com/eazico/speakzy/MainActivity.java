@@ -6,6 +6,7 @@ package  com.eazico.speakzy;
         import java.io.IOException;
         import java.util.ArrayList;
 
+        import android.content.Context;
         import android.os.Environment;
         import android.speech.RecognitionListener;
         import android.speech.RecognizerIntent;
@@ -31,7 +32,7 @@ public class MainActivity extends Activity implements
     private EditText in;
     private TextView returnedText;
     private ToggleButton toggleButton;
-    File external;
+
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
@@ -47,6 +48,7 @@ public class MainActivity extends Activity implements
         returnedText = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         toggleButton = (ToggleButton) findViewById(R.id.toggleButton1);
+        toggleButton.setChecked(false);
 
         progressBar.setVisibility(View.INVISIBLE);
         speech = SpeechRecognizer.createSpeechRecognizer(this);
@@ -119,7 +121,8 @@ public class MainActivity extends Activity implements
         Log.i(LOG_TAG, "onEndOfSpeech");
 
         progressBar.setIndeterminate(true);
-        toggleButton.setChecked(false);
+        if(toggleButton.isChecked())
+               toggleButton.setChecked(false);
 
     }
 
@@ -212,29 +215,20 @@ public class MainActivity extends Activity implements
     }
 
     public void onClick(MenuItem item) {
-        toggleButton.setChecked(true);
+        if(toggleButton.isChecked())
+        {
+            toggleButton.setChecked(true);
+        }
+        else
+           toggleButton.setChecked(true);
         in.setText("");
     }
     public void onSave(MenuItem item){
-        getFilesDir();
-        Toast.makeText(getApplicationContext(),"ready",Toast.LENGTH_SHORT).show();
-        FileOutputStream file= null;
-        if (!isExternalStorageAvailable() || isExternalStorageReadOnly()) {
-           // saveButton.setEnabled(false);
-        }
-        else {
-            external = new File(getExternalFilesDir("output"), "speak.txt");
-        }
-        try {
-            file = new FileOutputStream(external);
-            String s=in.getText().toString();
-            file.write(s.getBytes());
-            file.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //getFilesDir();
+        String filename="speakout.txt";
+        Toast.makeText(getApplicationContext(),"saving",Toast.LENGTH_SHORT).show();
+      //  FileOutputStream file= null;
+
       /*  try {
             //file = openFileOutput(Environment.getExternalStorageDirectory(), this.MODE_APPEND);
             String s=in.getText().toString();
@@ -243,20 +237,41 @@ public class MainActivity extends Activity implements
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-    }
-    private static boolean isExternalStorageReadOnly() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
-            return true;
+
+       // Context context=null;
+       // assert context != null;
+       // File file = new File(context.getFilesDir(), filename);
+       // file.setWritable(true);
+        //FileOutputStream outputStream;
+
+        /*try {
+            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+            outputStream.write((in.getText().toString()).getBytes());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"file not saved",Toast.LENGTH_SHORT).show();
+
+        }*/
+      //  File[] fll = file.listFiles();
+
+        //String content = "hello world";
+        File file;
+        FileOutputStream outputStream;
+        try {
+            file = new File(Environment.getExternalStorageDirectory(), "speakfiles1.txt");
+
+            outputStream = new FileOutputStream(file);
+            outputStream.write((in.getText().toString()).getBytes());
+            outputStream.close();
+            Toast.makeText(getApplicationContext(),"file  saved sucessfully",Toast.LENGTH_SHORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"file not saved",Toast.LENGTH_SHORT);
         }
-        return false;
+
+
     }
-    private static boolean isExternalStorageAvailable() {
-        String extStorageState = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
-            return true;
-        }
-        return false;
-    }
+
 
 }
