@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="speaktheme." parent="android:Theme.Holo.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorPrimary">?android:attr/colorActivatedHighlight</item>
+        <item name="android:colorPrimaryDark">@color/holo_light_primary_dark</item>
+        <item name="android:textColorPrimary">@android:color/background_dark</item>
+        <item name="android:colorForeground">@color/holo_light_primary_dark</item>
+        <item name="android:navigationBarColor">@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="speaktheme" parent="android:Theme.DeviceDefault.Light.DarkActionBar">
+        <item name="android:colorPrimary">?android:attr/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+</resources>

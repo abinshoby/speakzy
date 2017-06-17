@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/NEW"
+
+
+        android:onClick="onClick"
+        android:title="New"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/OPEN"
+        android:title="Open"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/SAVE"
+        android:onClick="onSave"
+        android:title="Save"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/SAVEAS"
+        android:title="Save As"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/PREF"
+        android:title="Preferences"
+        tools:ignore="HardcodedText" />
+    <item
+        android:id="@+id/HELP"
+        android:title="Help"
+        tools:ignore="HardcodedText" />
+</menu>
