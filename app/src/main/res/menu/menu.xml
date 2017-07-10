@@ -14,7 +14,7 @@
         tools:ignore="HardcodedText" />
     <item
         android:id="@+id/SAVE"
-        android:onClick="onSave"
+        android:onClick="OnSave"
         android:title="Save"
         tools:ignore="HardcodedText" />
     <item

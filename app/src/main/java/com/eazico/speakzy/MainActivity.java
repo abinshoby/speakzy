@@ -1,13 +1,7 @@
 package  com.eazico.speakzy;
 
-        import java.io.File;
-        import java.io.FileNotFoundException;
-        import java.io.FileOutputStream;
-        import java.io.IOException;
-        import java.util.ArrayList;
 
-        import android.content.Context;
-        import android.os.Environment;
+        import java.util.ArrayList;
         import android.speech.RecognitionListener;
         import android.speech.RecognizerIntent;
         import android.speech.SpeechRecognizer;
@@ -24,15 +18,15 @@ package  com.eazico.speakzy;
         import android.widget.EditText;
         import android.widget.ProgressBar;
         import android.widget.TextView;
-        import android.widget.Toast;
         import android.widget.ToggleButton;
+
+
 
 public class MainActivity extends Activity implements
         RecognitionListener {
-    private EditText in;
+    public static EditText in;
     private TextView returnedText;
     private ToggleButton toggleButton;
-
     private ProgressBar progressBar;
     private SpeechRecognizer speech = null;
     private Intent recognizerIntent;
@@ -44,24 +38,22 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
         in = (EditText) findViewById(R.id.content);
         in.setSelection(0);
+       in.setHorizontallyScrolling(false);
+
         in.setInputType(InputType.TYPE_NULL);
         returnedText = (TextView) findViewById(R.id.textView1);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
         toggleButton = (ToggleButton) findViewById(R.id.toggleButton1);
         toggleButton.setChecked(false);
-
         progressBar.setVisibility(View.INVISIBLE);
         speech = SpeechRecognizer.createSpeechRecognizer(this);
         speech.setRecognitionListener(this);
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE,
-                "en");
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 this.getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3);
-
 
         toggleButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -160,12 +152,14 @@ public class MainActivity extends Activity implements
 
        // for (String result : matches)
          //text += result;
-
-
-        in.append(matches.get(0));
-        in.setSelection(in.getText().length());
-        //speech.startListening(recognizerIntent);
-       // onResume();
+        int len=55;
+        String t=in.getText().toString();
+        if(t.length()+matches.get(0).length()>len)
+        {in.append(System.getProperty("line.separator")+matches.get(0));
+        in.setSelection(in.getText().length());}
+        else
+        {in.append(matches.get(0));
+        in.setSelection(in.getText().length());}
         toggleButton.setChecked(true);
 
     }
@@ -214,6 +208,7 @@ public class MainActivity extends Activity implements
         return message;
     }
 
+
     public void onClick(MenuItem item) {
         if(toggleButton.isChecked())
         {
@@ -223,55 +218,13 @@ public class MainActivity extends Activity implements
            toggleButton.setChecked(true);
         in.setText("");
     }
-    public void onSave(MenuItem item){
-        //getFilesDir();
-        String filename="speakout.txt";
-        Toast.makeText(getApplicationContext(),"saving",Toast.LENGTH_SHORT).show();
-      //  FileOutputStream file= null;
-
-      /*  try {
-            //file = openFileOutput(Environment.getExternalStorageDirectory(), this.MODE_APPEND);
-            String s=in.getText().toString();
-            file.write(s.getBytes());
-           file.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-       // Context context=null;
-       // assert context != null;
-       // File file = new File(context.getFilesDir(), filename);
-       // file.setWritable(true);
-        //FileOutputStream outputStream;
-
-        /*try {
-            outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
-            outputStream.write((in.getText().toString()).getBytes());
-            outputStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"file not saved",Toast.LENGTH_SHORT).show();
-
-        }*/
-      //  File[] fll = file.listFiles();
-
-        //String content = "hello world";
-        File file;
-        FileOutputStream outputStream;
-        try {
-            file = new File(Environment.getExternalStorageDirectory(), "speakfiles1.txt");
-
-            outputStream = new FileOutputStream(file);
-            outputStream.write((in.getText().toString()).getBytes());
-            outputStream.close();
-            Toast.makeText(getApplicationContext(),"file  saved sucessfully",Toast.LENGTH_SHORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"file not saved",Toast.LENGTH_SHORT);
-        }
-
+    public void OnSave(MenuItem item){
+        Intent dialog=new Intent(this, dialog2.class);
+        startActivity(dialog);
 
     }
+
+
 
 
 }
